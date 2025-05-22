@@ -3,7 +3,6 @@ package com.ravencli.http.factory.abstracted.abstractProducts;
 import java.net.URI;
 import java.net.http.HttpRequest;
 
-import com.ravencli.http.factory.abstracted.interfaces.IRequest;
 import org.json.JSONObject;
 
 public abstract class Request {
