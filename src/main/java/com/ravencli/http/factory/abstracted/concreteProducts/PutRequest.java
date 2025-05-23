@@ -13,10 +13,6 @@ public class PutRequest extends Request {
         super(uri, body);
     }
 
-    public PutRequest(URI uri) {
-        super(uri);
-    }
-
     @Override
     public HttpRequest build() {
         BodyPublisher requestBody = HttpRequest.BodyPublishers.ofString(body.toString());
