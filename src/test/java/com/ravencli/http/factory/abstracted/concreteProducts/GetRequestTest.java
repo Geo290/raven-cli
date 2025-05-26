@@ -1,11 +1,11 @@
 package com.ravencli.http.factory.abstracted.concreteProducts;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 import java.net.http.HttpRequest;
 import java.net.URI;
 
-import org.junit.jupiter.api.Test;
 
 public class GetRequestTest {
 
