@@ -1,0 +1,11 @@
+{
+    "API_URI": "https://api.example.com",
+    "METHOD": "POST",
+    "REQUEST_BODY": {
+        "key": "value"
+    },
+    "EXPECTED_RESULTS": {
+        "status": 200,
+        "data": {}
+    }
+}
