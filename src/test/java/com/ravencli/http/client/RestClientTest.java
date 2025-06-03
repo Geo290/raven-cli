@@ -10,10 +10,11 @@ import org.junit.jupiter.api.Test;
 
 import java.net.URI;
 import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class RestClientTest {
     private RestClient client = new RestClient();
-    private URI uri = URI.create("http://example.com/api/");
+    private URI uri = URI.create("https://jsonplaceholder.typicode.com/users/1");
     private JSONObject body = new JSONObject().put("key", "value");
 
     HttpRequest post = client.buildRequest("POST", uri, body);
@@ -51,5 +52,15 @@ public class RestClientTest {
         assertEquals("application/json", put.headers().firstValue("Content-Type").orElse(""));
         assertEquals("application/json", get.headers().firstValue("Content-Type").orElse(""));
         assertEquals("application/json", delete.headers().firstValue("Content-Type").orElse(""));
+    }
+
+    @Test
+    void testGetRequestExecution() {
+        HttpResponse<String> response = client.execute(get);
+        JSONObject responseBody = new JSONObject(response.body());
+        assertEquals(200, response.statusCode());
+        assertEquals(!responseBody.isEmpty(), true, "Response body should not be empty");
+        System.out.println("Response :");
+        System.out.println(responseBody);
     }
 }
