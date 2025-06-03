@@ -27,11 +27,15 @@ public class RestClient {
         return factory.createRequest(requestType, uri);
     }
 
-    public void execute(HttpRequest request) {
+    public HttpResponse<String> execute(HttpRequest request) {
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response;
+
         } catch (IOException | InterruptedException e) { // Create a timeout exception
             e.printStackTrace();
         }
+        
+        return null;
     }
 }
