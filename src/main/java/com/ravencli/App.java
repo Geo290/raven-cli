@@ -1,13 +1,14 @@
 package com.ravencli;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+import com.ravencli.cli.commands.Raven;
+
+import picocli.CommandLine;
+
+public class App {
+    public static void main(String[] args) {
+        int exitCode = new CommandLine(new Raven())
+            .setColorScheme(CommandLine.Help.defaultColorScheme(CommandLine.Help.Ansi.AUTO))
+            .execute(args);
+        System.exit(exitCode);
     }
 }
