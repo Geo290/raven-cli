@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.http.HttpRequest;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
