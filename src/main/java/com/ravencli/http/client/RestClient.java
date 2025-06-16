@@ -14,17 +14,31 @@ import com.ravencli.http.factory.RequestFactory;
 public class RestClient {
     private HttpClient client = HttpClient.newHttpClient();
     private RequestFactory factory;
-    
+
     public RestClient() {
         this.factory = new RequestFactory();
     }
 
-    public HttpRequest buildRequest(String requestType, URI uri, JSONObject body) {
-        return factory.createRequest(requestType, uri, body);
+    /**
+     * 
+     * @param String requestMethod
+     * @param URI uri
+     * @param JSONObject body
+     * @return HttpRequest
+     */
+    public HttpRequest buildRequest(String requestMethod, URI uri, JSONObject body) {
+        return factory.createRequest(requestMethod, uri, body);
     }
 
-    public HttpRequest buildRequest(String requestType, URI uri) {
-        return factory.createRequest(requestType, uri);
+    /**
+     * 
+     * @param String requestMethod
+     * @param URI uri
+     * @param JSONObject expectedResponse
+     * @return HttpRequest
+     */
+    public HttpRequest buildRequest(String requestMethod, URI uri) {
+        return factory.createRequest(requestMethod, uri);
     }
 
     public HttpResponse<String> execute(HttpRequest request) {
@@ -35,7 +49,7 @@ public class RestClient {
         } catch (IOException | InterruptedException e) { // Create a timeout exception
             e.printStackTrace();
         }
-        
+
         return null;
     }
 }
