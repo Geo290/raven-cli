@@ -4,38 +4,75 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.json.JSONObject;
 
+import com.ravencli.file.handler.FileHandler;
+import com.ravencli.file.model.TestCase;
 
-import java.net.URI;
+import java.net.MalformedURLException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.URI;
+
+import java.io.IOException;
+import java.io.File;
 
 public class RestClientTest {
-    private RestClient client = new RestClient();
     private URI uri = URI.create("https://jsonplaceholder.typicode.com/users/1");
-    private JSONObject body = new JSONObject().put("key", "value");
+    private RestClient client = new RestClient();
 
-    HttpRequest post = client.buildRequest("POST", uri, body);
-    HttpRequest put = client.buildRequest("PUT", uri, body);
-    HttpRequest delete = client.buildRequest("DELETE", uri);
-    HttpRequest get = client.buildRequest("GET", uri);
+    TestCase testCasePost, testCaseGet, testCasePut, testCaseDelete;
+    HttpRequest post, put, delete, get;
+
+    @BeforeEach
+    void setUp() throws MalformedURLException, NullPointerException, IOException {
+        try {
+            testCasePost = FileHandler.parse(new File("raven/tests", "testCasePost.json"));
+            testCasePut = FileHandler.parse(new File("raven/tests", "testCasePut.json"));
+            testCaseDelete = FileHandler.parse(new File("raven/tests", "testCaseDelete.json"));
+            testCaseGet = FileHandler.parse(new File("raven/tests", "testCaseGet.json"));
+
+            post = client.buildRequest(
+                    testCasePost.getRequestMethod(),
+                    testCasePost.getApiUri(),
+                    testCasePost.getRequestBody());
+            put = client.buildRequest(
+                    testCasePut.getRequestMethod(),
+                    testCasePut.getApiUri(),
+                    testCasePut.getRequestBody());
+            delete = client.buildRequest(
+                    testCaseDelete.getRequestMethod(),
+                    testCaseDelete.getApiUri());
+            get = client.buildRequest(
+                    testCaseGet.getRequestMethod(),
+                    testCaseGet.getApiUri());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     void validateRequestMethods() {
         assertEquals("POST", post.method());
-        assertEquals("GET", get.method());
         assertEquals("PUT", put.method());
         assertEquals("DELETE", delete.method());
+        assertEquals("GET", get.method());
     }
 
     @Test
     void checkRequestUri() {
-        assertEquals(uri, post.uri());
-        assertEquals(uri, get.uri());
-        assertEquals(uri, put.uri());
-        assertEquals(uri, delete.uri());
+        URI postUri = URI.create("https://localhost:8080/teachers/save");
+        URI getUri = URI.create("https://localhost:8080/teachers/get-all");
+        URI putUri = URI.create("https://localhost:8080/teachers/update-info/1");
+        URI deleteUri = URI.create("https://localhost:8080/teachers/delete/1");
+
+        assertEquals(postUri, post.uri());
+        assertEquals(getUri, get.uri());
+        assertEquals(putUri, put.uri());
+        assertEquals(deleteUri, delete.uri());
     }
 
     @Test
@@ -58,8 +95,46 @@ public class RestClientTest {
     void testGetRequestExecution() {
         HttpResponse<String> response = client.execute(get);
         JSONObject responseBody = new JSONObject(response.body());
+
         assertEquals(200, response.statusCode());
         assertEquals(!responseBody.isEmpty(), true, "Response body should not be empty");
+
+        System.out.println("Response :");
+        System.out.println(responseBody);
+    }
+
+    @Test
+    void testPostRequestExecution() {
+        HttpResponse<String> response = client.execute(post);
+        JSONObject responseBody = new JSONObject(response.body());
+
+        assertEquals(200, response.statusCode());
+        assertEquals(!responseBody.isEmpty(), true, "Response body should not be empty");
+
+        System.out.println("Response :");
+        System.out.println(responseBody);
+    }
+
+    @Test
+    void testPutRequestExecution() {
+        HttpResponse<String> response = client.execute(put);
+        JSONObject responseBody = new JSONObject(response.body());
+
+        assertEquals(200, response.statusCode());
+        assertEquals(!responseBody.isEmpty(), true, "Response body should not be empty");
+
+        System.out.println("Response :");
+        System.out.println(responseBody);
+    }
+
+    @Test
+    void testDeleteRequestExecution() {
+        HttpResponse<String> response = client.execute(delete);
+        JSONObject responseBody = new JSONObject(response.body());
+
+        assertEquals(200, response.statusCode());
+        assertEquals(!responseBody.isEmpty(), true, "Response body should not be empty");
+
         System.out.println("Response :");
         System.out.println(responseBody);
     }
