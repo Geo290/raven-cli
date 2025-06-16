@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.File;
 
 public class RestClientTest {
-    private URI uri = URI.create("https://jsonplaceholder.typicode.com/users/1");
     private RestClient client = new RestClient();
 
     TestCase testCasePost, testCaseGet, testCasePut, testCaseDelete;
