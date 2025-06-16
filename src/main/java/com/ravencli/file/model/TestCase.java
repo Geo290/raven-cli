@@ -8,25 +8,26 @@ public class TestCase {
     private URI apiUri;
     private String method;
     private JSONObject requestBody;
-    private JSONObject expectedResults;
+    private JSONObject expectedResponse;
 
-    public TestCase(
-        URI apUri, 
-        String method, 
-        JSONObject requestBody, 
-        JSONObject expectedResults
-    ) {
+    public TestCase(URI apUri, String method, JSONObject requestBody, JSONObject expectedResponse) {
         this.apiUri = apUri;
         this.method = method;
         this.requestBody = requestBody;
-        this.expectedResults = expectedResults;
+        this.expectedResponse = expectedResponse;
     }
 
-    public URI getAPUri() {
+    public TestCase(URI apUri,  String method, JSONObject expectedResponse) {
+        this.apiUri = apUri;
+        this.method = method;
+        this.expectedResponse = expectedResponse;
+    }
+
+    public URI getApiUri() {
         return this.apiUri;
     }
 
-    public String getmethod() {
+    public String getRequestMethod() {
         return this.method;
     }
 
@@ -34,8 +35,8 @@ public class TestCase {
         return this.requestBody;
     }
 
-    public JSONObject getExpectedResults() {
-        return this.expectedResults;
+    public JSONObject getExpectedResponse() {
+        return this.expectedResponse;
     }
 
 }
