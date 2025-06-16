@@ -3,10 +3,11 @@ package com.ravencli.file.handler;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.net.http.HttpRequest;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,24 +16,29 @@ import org.junit.jupiter.api.Test;
 import com.ravencli.file.model.TestCase;
 
 public class FileHandlerTest {
-    private FileHandler handler;
-    private JSONObject jsonObject;
+    JSONObject jsonObject, postJO, getJO, putJO, deleteJO;
 
     @BeforeEach
-    void setUp() throws MalformedURLException {
-        final Path TEST_FILES_ROOT_DIR = Paths.get("src", "test", "resources", "jsonTestCaseFiles");
-        final Path testFile1 = TEST_FILES_ROOT_DIR.resolve("testCase1.json");
-        System.out.println("Test File Path: " + testFile1.toAbsolutePath());
-        handler = new FileHandler(testFile1);
-        jsonObject = handler.getJsonObject();
+    void setUp() throws MalformedURLException, NullPointerException, IOException {
+
+        try {
+            jsonObject = FileHandler.getJsonObject(new File("raven/tests", "myTestCase.json"));
+            deleteJO = FileHandler.getJsonObject(new File("raven/tests", "testCaseDelete.json"));
+            postJO = FileHandler.getJsonObject(new File("raven/tests", "testCasePost.json"));
+            getJO = FileHandler.getJsonObject(new File("raven/tests", "testCaseGet.json"));
+            putJO = FileHandler.getJsonObject(new File("raven/tests", "testCasePut.json"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     void testJsonObjectParsing() {
-        final URI uri = handler.getJsonObjectUri(jsonObject);
-        final String method = handler.getJsonObjectMethod(jsonObject);
-        final JSONObject body = handler.getJsonObjectRequestBody(jsonObject);
-        final JSONObject response = handler.getJsonObjectExpectedResponse(jsonObject);
+        final URI uri = FileHandler.getJsonObjectApiUri(jsonObject);
+        final String method = FileHandler.getJsonObjectRequestMethod(jsonObject);
+        final JSONObject body = FileHandler.getJsonObjectRequestBody(jsonObject);
+        final JSONObject response = FileHandler.getJsonObjectExpectedResponse(jsonObject);
 
         TestCase testCase = new TestCase(uri, method, body, response);
 
@@ -40,24 +46,41 @@ public class FileHandlerTest {
     }
 
     @Test
-    void testGetJsonObjectUri() {
-        final URI expectedUri = URI.create("https://api.example.com");
-        final URI actualUri = handler.getJsonObjectUri(jsonObject);
+    void testgetJsonObjectApiUri() {
+        final URI expectedPostUri = URI.create("localhost:8080/teachers/save");
+        final URI expectedGetUri = URI.create("localhost:8080/teachers/get-all");
+        final URI expectedPutUri = URI.create("localhost:8080/teachers/update-info/1");
+        final URI expectedDeleteUri = URI.create("localhost:8080/teachers/delete/1");
 
-        assertEquals(expectedUri, actualUri);
+        final URI actualPostUri = FileHandler.getJsonObjectApiUri(postJO);
+        final URI actualGetUri = FileHandler.getJsonObjectApiUri(getJO);
+        final URI actualPutUri = FileHandler.getJsonObjectApiUri(putJO);
+        final URI actualDeleteUri = FileHandler.getJsonObjectApiUri(deleteJO);
+
+        assertEquals(expectedPostUri, actualPostUri);
+        assertEquals(expectedGetUri, actualGetUri);
+        assertEquals(expectedPutUri, actualPutUri);
+        assertEquals(expectedDeleteUri, actualDeleteUri);
+
     }
 
     @Test
-    void testGetJsonObjectMethod() {
-        final String actualMethod = handler.getJsonObjectMethod(jsonObject);
+    void testGetJsonObjectRequestMethod() {
+        final String actualPostMethod = FileHandler.getJsonObjectRequestMethod(postJO);
+        final String actualGetMethod = FileHandler.getJsonObjectRequestMethod(getJO);
+        final String actualPutMethod = FileHandler.getJsonObjectRequestMethod(putJO);
+        final String actualDeleteMethod = FileHandler.getJsonObjectRequestMethod(deleteJO);
 
-        assertEquals("POST", actualMethod);
+        assertEquals("POST", actualPostMethod);
+        assertEquals("GET", actualGetMethod);
+        assertEquals("PUT", actualPutMethod);
+        assertEquals("DELETE", actualDeleteMethod);
     }
 
     @Test
     void testGetJsonObjectRequestBody() {
         final JSONObject expectedRequestBody = new JSONObject().put("key", "value");
-        final JSONObject actualRequestBody = handler.getJsonObjectRequestBody(jsonObject);
+        final JSONObject actualRequestBody = FileHandler.getJsonObjectRequestBody(jsonObject);
 
         assertEquals(expectedRequestBody.toString(), actualRequestBody.toString());
 
@@ -69,7 +92,7 @@ public class FileHandlerTest {
         expectedResponse.put("status", 200);
         expectedResponse.put("data", new JSONObject());
 
-        final JSONObject actualResponse = handler.getJsonObjectExpectedResponse(jsonObject);
+        final JSONObject actualResponse = FileHandler.getJsonObjectExpectedResponse(jsonObject);
 
         assertEquals(expectedResponse.toString(), actualResponse.toString());
     }
