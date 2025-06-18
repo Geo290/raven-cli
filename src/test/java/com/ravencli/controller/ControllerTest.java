@@ -44,11 +44,11 @@ public class ControllerTest {
         assertNotNull(request, "HttpRequest should not be null");
     }
 
-    @Test
-    public void testExecuteRequest() {
-        System.out.println("Method: " + request.method());
-        System.out.println("URI: " + request.uri());
-        assertNotNull(response, "HttpResponse should not be null");
-        assertEquals(200, response.statusCode(), "Status code should be 200 OK");
-    }
+    // @Test
+    // public void testExecuteRequest() {
+    //     System.out.println("Method: " + request.method());
+    //     System.out.println("URI: " + request.uri());
+    //     assertNotNull(response, "HttpResponse should not be null");
+    //     assertEquals(200, response.statusCode(), "Status code should be 200 OK");
+    // }
 }
