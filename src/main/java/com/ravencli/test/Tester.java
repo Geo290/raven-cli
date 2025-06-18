@@ -15,11 +15,11 @@ public class Tester {
 
     }
 
-    protected void setExpectedResponse(JSONObject expectedResponse) {
+    public void setExpectedResponse(JSONObject expectedResponse) {
         this.expectedResponse = expectedResponse;
     }
 
-    protected void setActualResponse(JSONObject actualResponse) {
+    public void setActualResponse(JSONObject actualResponse) {
         this.actualResponse = actualResponse;
     }
 
