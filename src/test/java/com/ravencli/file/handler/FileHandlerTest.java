@@ -46,10 +46,10 @@ public class FileHandlerTest {
 
     @Test
     void testgetJsonObjectApiUri() {
-        final URI expectedPostUri = URI.create("localhost:8080/teachers/save");
-        final URI expectedGetUri = URI.create("localhost:8080/teachers/get-all");
-        final URI expectedPutUri = URI.create("localhost:8080/teachers/update-info/1");
-        final URI expectedDeleteUri = URI.create("localhost:8080/teachers/delete/1");
+        final URI expectedPostUri = URI.create("http://localhost:8080/teachers/save");
+        final URI expectedGetUri = URI.create("http://localhost:8080/teachers/find-by-id/1");
+        final URI expectedPutUri = URI.create("http://localhost:8080/teachers/update-info/1");
+        final URI expectedDeleteUri = URI.create("http://localhost:8080/teachers/delete/1");
 
         final URI actualPostUri = FileHandler.getJsonObjectApiUri(postJO);
         final URI actualGetUri = FileHandler.getJsonObjectApiUri(getJO);
