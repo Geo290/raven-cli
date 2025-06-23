@@ -1,9 +1,14 @@
 package com.ravencli.cli.subcommands;
 
-import java.io.File;
-
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
+
+import java.io.File;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+import com.ravencli.controller.Controller;
+import com.ravencli.file.model.TestCase;
 
 @Command(name = "run", description = "Runs the given test cases")
 public class Run implements Runnable {
@@ -12,13 +17,10 @@ public class Run implements Runnable {
 
     @Override
     public void run() {
-        File testCaseFile = new File("raven/tests", relativeFilePath);
-        System.out.println(testCaseFile.getAbsolutePath());
-        if (!testCaseFile.exists()) {
-            System.out.println("ERROR: TEST CASE NOT FOUND");
-            System.out.println("Please ensure the test cases exist within the raven/tests directory");
-            return;
-        }
-        System.out.println("Running test case" + testCaseFile.getAbsolutePath());
+        File file = Controller.readFile(relativeFilePath);
+        TestCase testCase = Controller.buildTestCase(file);
+        HttpRequest request = Controller.buildHttpRequest(testCase);
+        HttpResponse<String> response = Controller.executeRequest(request);
+        Controller.runTestCase(testCase, response);
     }
 }
