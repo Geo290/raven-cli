@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Disabled;
 
 import com.ravencli.file.model.TestCase;
 
+@Disabled("This test is disabled because it requires a specific file structure and content.")
 public class FileHandlerTest {
     JSONObject jsonObject, postJO, getJO, putJO, deleteJO;
 
-    @Disabled("This test is disabled because it requires a specific file structure and content.")
     @BeforeEach
     void setUp() throws MalformedURLException, NullPointerException, IOException {
 
@@ -47,7 +47,6 @@ public class FileHandlerTest {
         assertTrue(testCase != null, "TestCase should not be null");
     }
 
-    @Disabled("This test is disabled because it requires a specific file structure and content.")
     @Test
     void testgetJsonObjectApiUri() {
         final URI expectedPostUri = URI.create("http://localhost:8080/teachers/save");
@@ -67,7 +66,6 @@ public class FileHandlerTest {
 
     }
 
-    @Disabled("This test is disabled because it requires a specific file structure and content.")
     @Test
     void testGetJsonObjectRequestMethod() {
         final String actualPostMethod = FileHandler.getJsonObjectRequestMethod(postJO);
@@ -81,7 +79,6 @@ public class FileHandlerTest {
         assertEquals("DELETE", actualDeleteMethod);
     }
 
-    @Disabled("This test is disabled because it requires a specific file structure and content.")
     @Test
     void testGetJsonObjectRequestBody() {
         final JSONObject expectedRequestBody = new JSONObject().put("key", "value");
@@ -91,7 +88,6 @@ public class FileHandlerTest {
 
     }
 
-    @Disabled("This test is disabled because it requires a specific file structure and content.")
     @Test
     void testGetJsonObjectExpectedResponse() {
         JSONObject expectedResponse = new JSONObject();
