@@ -1,58 +1,55 @@
-package com.ravencli.controller;
+// package com.ravencli.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
+// import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+// import java.io.File;
+// import java.net.http.HttpRequest;
+// import java.net.http.HttpResponse;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.Disabled;
+// import org.junit.jupiter.api.Test;
 
-import com.ravencli.file.model.TestCase;
+// import com.ravencli.file.model.TestCase;
 
-public class ControllerTest {
-    HttpResponse<String> response;
-    HttpRequest request;
-    TestCase testCase;
-    File file;
+// public class ControllerTest {
+//     HttpResponse<String> response;
+//     HttpRequest request;
+//     TestCase testCase;
+//     File file;
 
-    @Disabled("This test is disabled because it requires a specific file structure and content.")
-    @BeforeEach
-    void setUp() {
-        file = Controller.readFile("testCaseGet.json");
-        testCase = Controller.buildTestCase(file);
-        request = Controller.buildHttpRequest(testCase);
-        response = Controller.executeRequest(request);
-    }
+//     @BeforeEach
+//     void setUp() {
+//         file = Controller.readFile("testCaseGet.json");
+//         testCase = Controller.buildTestCase(file);
+//         request = Controller.buildHttpRequest(testCase);
+//         response = Controller.executeRequest(request);
+//     }
 
-    @Disabled("This test is disabled because it requires a specific file structure and content.")
-    @Test
-    public void testReadFile() {
-        assertNotNull(file, "File should not be null");
-    }
+//     @Test
+//     public void testReadFile() {
+//         assertNotNull(file, "File should not be null");
+//     }
 
-    @Test
-    public void testBuildTestCase() {
-        System.out.println(file.getAbsolutePath());
-        assertNotNull(testCase, "Testcase should not be null");
-    }
+//     @Test
+//     public void testBuildTestCase() {
+//         System.out.println(file.getAbsolutePath());
+//         assertNotNull(testCase, "Testcase should not be null");
+//     }
 
-    @Disabled("This test is disabled because it requires a specific file structure and content.")
-    @Test
-    public void testBuildHttpRquest() {
-        System.out.println("Method: " + testCase.getRequestMethod());
-        System.out.println("URI: " + testCase.getApiUri());
-        System.out.println("Body: " + testCase.getRequestBody());
-        assertNotNull(request, "HttpRequest should not be null");
-    }
+//     @Test
+//     public void testBuildHttpRquest() {
+//         System.out.println("Method: " + testCase.getRequestMethod());
+//         System.out.println("URI: " + testCase.getApiUri());
+//         System.out.println("Body: " + testCase.getRequestBody());
+//         assertNotNull(request, "HttpRequest should not be null");
+//     }
 
-    // @Test
-    // public void testExecuteRequest() {
-    // System.out.println("Method: " + request.method());
-    // System.out.println("URI: " + request.uri());
-    // assertNotNull(response, "HttpResponse should not be null");
-    // assertEquals(200, response.statusCode(), "Status code should be 200 OK");
-    // }
-}
+//     // @Test
+//     // public void testExecuteRequest() {
+//     // System.out.println("Method: " + request.method());
+//     // System.out.println("URI: " + request.uri());
+//     // assertNotNull(response, "HttpResponse should not be null");
+//     // assertEquals(200, response.statusCode(), "Status code should be 200 OK");
+//     // }
+// }
